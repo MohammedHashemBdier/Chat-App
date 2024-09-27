@@ -1,4 +1,5 @@
 import 'package:chat_app/constens.dart';
+import 'package:chat_app/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chat_app/cubits/register_cubit/register_cubit.dart';
 import 'package:chat_app/helper/show_snack_bar.dart';
 import 'package:chat_app/pages/chat_page.dart';
@@ -23,13 +24,14 @@ class RegisterPage extends StatelessWidget {
         if (state is RegisterLoading) {
           isLoading = true;
         } else if (state is RegisterSuccess) {
-          isLoading = false;
+          BlocProvider.of<ChatCubit>(context).getMassages();
           showSnackBar(context, state.successMassage);
           Navigator.pushReplacementNamed(
             context,
             ChatPage.id,
             arguments: email,
           );
+          isLoading = false;
         } else if (state is RegisterFailure) {
           isLoading = false;
           showSnackBar(context, state.errMessage);
