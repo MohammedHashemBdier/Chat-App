@@ -1,4 +1,5 @@
-import 'package:chat_app/cubits/auth_cubit/auth_cubit.dart';
+import 'package:chat_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:chat_app/blocs/auth_bloc/simple_bloc_observer.dart';
 import 'package:chat_app/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/pages/chat_page.dart';
@@ -13,6 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Bloc.observer = SimpleBlocObserver();
   runApp(const ChatApp());
 }
 
@@ -25,7 +27,7 @@ class ChatApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AuthCubit(),
+          create: (context) => AuthBloc(),
         ),
         BlocProvider(
           create: (context) => ChatCubit(),
