@@ -1,6 +1,6 @@
 import 'package:chat_app/constens.dart';
+import 'package:chat_app/cubits/auth_cubit/auth_cubit.dart';
 import 'package:chat_app/cubits/chat_cubit/chat_cubit.dart';
-import 'package:chat_app/cubits/register_cubit/register_cubit.dart';
 import 'package:chat_app/helper/show_snack_bar.dart';
 import 'package:chat_app/pages/chat_page.dart';
 import 'package:chat_app/helper/custom_text_form_field.dart';
@@ -19,9 +19,9 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey();
-    return BlocConsumer<RegisterCubit, RegisterState>(
+    return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is RegisterLoading) {
+        if (state is LoginLoading) {
           isLoading = true;
         } else if (state is RegisterSuccess) {
           BlocProvider.of<ChatCubit>(context).getMassages();
@@ -95,7 +95,7 @@ class RegisterPage extends StatelessWidget {
                         CustomButton(
                           onTap: () async {
                             if (formKey.currentState!.validate()) {
-                              BlocProvider.of<RegisterCubit>(context)
+                              BlocProvider.of<AuthCubit>(context)
                                   .registrationMethod(
                                 email: email!,
                                 password: password!,
